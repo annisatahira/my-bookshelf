@@ -2,6 +2,7 @@
 @import url("search.css");
 @import url("add-book.css");
 @import url("unfinished-books.css");
+@import url("finished-books.css");
 
 * {
   box-sizing: border-box;

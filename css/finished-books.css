@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
+
+.finished-books {
+  margin-top: 20px !important;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px 15px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+
+.finished-books h1 {
+  font-size: 20px;
+  font-family: "Indie Flower", cursive;
+  color: #2c394b;
+}
+
+.finished-books__empty {
+  height: 300px;
+  border: 1px dashed #048e9b;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.finished-books__empty .fa {
+  font-size: 45px;
+  color: #048e9b;
+}
+
+.finished-books__empty p {
+  width: 200px;
+  text-align: center;
+  line-height: 25px;
+  font-family: "Indie Flower", cursive;
+}
+
+.finished-books__btn {
+  width: 20%;
+  border-radius: 25px;
+  border: none;
+  width: 100px;
+  background-color: #048e9b;
+  color: white;
+  font-weight: bold;
+  padding: 15px 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  margin-bottom: 20px;
+}
