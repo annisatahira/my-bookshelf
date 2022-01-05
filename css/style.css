@@ -1,5 +1,6 @@
 @import url("header.css");
 @import url("search.css");
+@import url("add-book.css");
 
 * {
   box-sizing: border-box;
@@ -12,4 +13,13 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-color: #eeeeee;
+}
+
+.container {
+  margin: 15px;
+}
+
+.wrapper-right-btn {
+  display: flex;
+  justify-content: end;
 }
