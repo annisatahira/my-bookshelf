@@ -5,7 +5,6 @@
 
 .search-form__input {
   width: 80%;
-  margin-right: 15px;
 }
 
 .search-form__input input {
@@ -13,17 +12,17 @@
   border: none;
   padding: 1rem;
   width: 100%;
-  margin: 20px 10px;
+  margin: 10px 0 10px 0;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
 
 .search-form__input input:focus {
   outline: none;
-  border: 2px solid #9ddee4;
+  border: 2px solid #048e9b;
 }
 
 .search-form__btn {
-  margin: 0 15px;
+  margin-left: 15px;
   width: 20%;
   border-radius: 50%;
   border: none;
