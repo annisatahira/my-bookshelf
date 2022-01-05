@@ -10,6 +10,10 @@
     <title>My Bookshelf</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap"
       rel="stylesheet"
     />
@@ -19,5 +23,19 @@
     <header>
       <h1>My Bookshelf</h1>
     </header>
+
+    <section class="container search">
+      <form action="#" id="form">
+        <div class="search-form__input">
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Search book by title"
+          />
+        </div>
+        <button class="search-form__btn"><i class="fa fa-search"></i></button>
+      </form>
+    </section>
   </body>
 </html>
