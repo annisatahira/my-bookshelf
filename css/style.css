@@ -3,6 +3,7 @@
 @import url("add-book.css");
 @import url("unfinished-books.css");
 @import url("finished-books.css");
+@import url("footer.css");
 
 * {
   box-sizing: border-box;
