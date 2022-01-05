@@ -7,6 +7,7 @@
 } */
 
 const UNFINISHED_LIST_BOOK_ID = "books";
+const FINISHED_LIST_BOOK_ID = "finished-books";
 
 const addBook = () => {
   const titleBook = document.getElementById("title-book").value;
@@ -32,24 +33,47 @@ const makeBook = ({ title, author, year }) => {
   const bookAuthor = document.createElement("h2");
   const bookYear = document.createElement("h3");
   const bookButtonWrapper = document.createElement("div");
-  const bookButtonFinished = document.createElement("p");
   const bookButtonDelete = document.createElement("p");
 
   bookTitle.innerText = title;
   bookAuthor.innerText = author;
   bookYear.innerText = year;
 
-  bookButtonFinished.innerText = "Finished";
   bookButtonDelete.innerText = "Delete";
 
   bookContainer.classList.add("unfinished-book__item");
   bookButtonWrapper.classList.add("unfinished-book__item-btn-wrapper");
-  bookButtonFinished.classList.add("unfinished-book__item-btn-finished");
   bookButtonDelete.classList.add("unfinished-book__item-btn-delete");
 
   infoContainer.append(bookTitle, bookAuthor, bookYear);
-  bookButtonWrapper.append(bookButtonFinished, bookButtonDelete);
-  bookContainer.append(infoContainer, bookButtonWrapper);
+  bookContainer.append(infoContainer);
+  bookContainer.append(createFinishedButton());
 
   return bookContainer;
+};
+
+const createButton = (buttonTypeClass, label, eventListener) => {
+  const button = document.createElement("button");
+
+  button.innerText = label;
+  button.classList.add(buttonTypeClass);
+
+  button.addEventListener("click", (event) => {
+    eventListener(event);
+  });
+  return button;
+};
+
+const addBookToFinished = (bookElement) => {
+  bookElement.remove();
+};
+
+const createFinishedButton = () => {
+  return createButton(
+    "unfinished-book__item-btn-finished",
+    "Finished",
+    (event) => {
+      addBookToFinished(event.target.parentElement);
+    }
+  );
 };

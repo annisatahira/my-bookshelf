@@ -90,12 +90,13 @@
 .unfinished-book__item-btn-wrapper {
   display: flex;
   justify-content: space-between;
-  font-family: "Indie Flower", cursive;
-  font-weight: bold;
 }
 
 .unfinished-book__item-btn-finished,
 .unfinished-book__item-btn-delete {
+  font-family: "Indie Flower", cursive;
+  color: white;
+  font-weight: bold;
   min-width: 80px;
   min-height: 44px;
   padding: 10px;
@@ -105,6 +106,7 @@
 
 .unfinished-book__item-btn-finished {
   background-color: #048e9b;
+  margin-top: 20px;
 }
 
 .unfinished-book__item-btn-delete {
