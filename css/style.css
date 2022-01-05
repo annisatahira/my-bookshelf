@@ -1,0 +1,14 @@
+@import url("header.css");
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: Raleway;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #eeeeee;
+}
