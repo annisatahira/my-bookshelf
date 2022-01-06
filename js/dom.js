@@ -91,7 +91,7 @@ const makeBook = ({ id, title, author, year, isComplete }) => {
   if (isComplete) {
     bookContainer.append(createUndoButton(), createDeleteButton(id));
   } else {
-    bookContainer.append(createFinishedButton(), createDeleteButton(id));
+    bookContainer.append(createFinishedButton(id), createDeleteButton(id));
   }
 
   return bookContainer;
@@ -109,12 +109,13 @@ const createButton = (buttonTypeClass, label, eventListener) => {
   return button;
 };
 
-const addBookToFinished = (bookElement) => {
+const addBookToFinished = ({ bookElement, bookId }) => {
   const bookTitle = bookElement.querySelector("h1").innerText;
   const bookAuthor = bookElement.querySelector("h2").innerText;
   const bookYear = bookElement.querySelector("h3").innerText;
 
   const newBook = makeBook({
+    id: bookId,
     title: bookTitle,
     author: bookAuthor,
     year: bookYear,
@@ -123,12 +124,20 @@ const addBookToFinished = (bookElement) => {
 
   const listFinishedBook = document.getElementById(FINISHED_LIST_BOOK_ID);
   listFinishedBook.append(newBook);
+
+  // change status isComplete in local storage
+  const bookTarget = findId({ id: bookId, data: books });
+
+  if (bookTarget == null) return;
+  bookTarget.isComplete = true;
+  document.dispatchEvent(new Event(RENDER_BOOK));
+  saveDataToStorage();
   bookElement.remove();
 };
 
-const createFinishedButton = () => {
+const createFinishedButton = (id) => {
   return createButton("book-item__btn-finished", "Finished", (event) => {
-    addBookToFinished(event.target.parentElement);
+    addBookToFinished({ bookElement: event.target.parentElement, bookId: id });
   });
 };
 

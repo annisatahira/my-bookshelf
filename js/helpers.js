@@ -6,3 +6,12 @@ const findIndex = ({ id, data }) => {
   }
   return -1;
 };
+
+function findId({ id, data }) {
+  for (item of data) {
+    if (item.id === id) {
+      return item;
+    }
+  }
+  return null;
+}
