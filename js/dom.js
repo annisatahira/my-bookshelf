@@ -11,7 +11,7 @@ const UNFINISHED_LIST_BOOK_ID = "books";
 const FINISHED_LIST_BOOK_ID = "finished-books";
 
 const generatedID = () => {
-  return `book_${+new Date()}`;
+  return `${+new Date()}`;
 };
 
 // const generateBookObject = ({ id, title, author, year, isComplete }) => {
@@ -65,7 +65,7 @@ const addBook = () => {
   saveDataToStorage();
 };
 
-const makeBook = ({ title, author, year, isComplete }) => {
+const makeBook = ({ id, title, author, year, isComplete }) => {
   const bookContainer = document.createElement("div");
   const infoContainer = document.createElement("div");
   const bookTitle = document.createElement("h1");
@@ -86,12 +86,12 @@ const makeBook = ({ title, author, year, isComplete }) => {
 
   infoContainer.append(bookTitle, bookAuthor, bookYear);
   bookContainer.append(infoContainer);
-  // bookContainer.setAttribute("id", `todo-${id}`);
+  bookContainer.setAttribute("id", `book-${id}`);
 
   if (isComplete) {
-    bookContainer.append(createUndoButton(), createDeleteButton());
+    bookContainer.append(createUndoButton(), createDeleteButton(id));
   } else {
-    bookContainer.append(createFinishedButton(), createDeleteButton());
+    bookContainer.append(createFinishedButton(), createDeleteButton(id));
   }
 
   return bookContainer;
@@ -132,9 +132,9 @@ const createFinishedButton = () => {
   });
 };
 
-const createDeleteButton = () => {
+const createDeleteButton = (id) => {
   return createButton("book-item__btn-delete", "Delete", (event) => {
-    removeBookFromFinished(event.target.parentElement);
+    removeBookElement({ bookElement: event.target.parentElement, bookId: id });
   });
 };
 
@@ -144,7 +144,14 @@ const createUndoButton = () => {
   });
 };
 
-const removeBookFromFinished = (bookElement) => {
+const removeBookElement = ({ bookElement, bookId }) => {
+  const bookTarget = findIndex({ id: bookId, data: books });
+
+  if (bookTarget === -1) return;
+  books.splice(bookTarget, 1);
+
+  document.dispatchEvent(new Event(RENDER_BOOK));
+  saveDataToStorage();
   bookElement.remove();
 };
 
