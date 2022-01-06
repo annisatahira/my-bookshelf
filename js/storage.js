@@ -58,8 +58,6 @@ const loadBooksFromStorage = () => {
 
   let data = JSON.parse(serializedData);
 
-  console.log({ data });
-
   if (data !== null) {
     for (book of data) {
       books.push(book);
@@ -68,10 +66,6 @@ const loadBooksFromStorage = () => {
 
   document.dispatchEvent(new Event(RENDER_BOOK));
 };
-
-// document.addEventListener(SAVED_BOOK, () => {
-//   console.log("Data berhasil di simpan.");
-// });
 
 document.addEventListener(RENDER_BOOK, () => {
   const unfinishedBookList = document.getElementById(UNFINISHED_LIST_BOOK_ID);

@@ -40,13 +40,14 @@
 
     <section class="container add-book">
       <h1>Add a new book?</h1>
-      <form action="#" id="form-add-book">
+      <form action="#" id="form-add-book" autocomplete="off">
         <div class="add-book__input">
           <input
             type="text"
             id="title-book"
             name="title-book"
             placeholder="Book Title"
+            required
           />
         </div>
         <div class="add-book__input">
@@ -55,6 +56,7 @@
             id="author-book"
             name="author-book"
             placeholder="Author Name"
+            required
           />
         </div>
         <div class="add-book__input">
@@ -63,6 +65,7 @@
             id="year-book"
             name="year-book"
             placeholder="Publication Year"
+            required
           />
         </div>
         <div class="add-book__checked">
