@@ -6,8 +6,23 @@
   isComplete: boolean,
 } */
 
+// const books = [];
 const UNFINISHED_LIST_BOOK_ID = "books";
 const FINISHED_LIST_BOOK_ID = "finished-books";
+
+const generatedID = () => {
+  return `book_${+new Date()}`;
+};
+
+// const generateBookObject = ({ id, title, author, year, isComplete }) => {
+//   return {
+//     id,
+//     title,
+//     author,
+//     year,
+//     isComplete,
+//   };
+// };
 
 const addBook = () => {
   const titleBook = document.getElementById("title-book").value;
@@ -15,9 +30,19 @@ const addBook = () => {
   const yearBook = document.getElementById("year-book").value;
   const isFinished = document.getElementById("finished-book-checked").checked;
 
+  // const bookObject = generateBookObject({
+  //   id: bookID,
+  //   title: titleBook,
+  //   author: authorBook,
+  //   year: yearBook,
+  //   isComplete: isFinished,
+  // });
+  // books.push(bookObject);
+  const bookID = generatedID();
   const unfinishedBookList = document.getElementById(UNFINISHED_LIST_BOOK_ID);
   const finishedBookList = document.getElementById(FINISHED_LIST_BOOK_ID);
   const book = makeBook({
+    id: bookID,
     title: titleBook,
     author: authorBook,
     year: yearBook,
@@ -25,6 +50,19 @@ const addBook = () => {
   });
 
   isFinished ? finishedBookList.append(book) : unfinishedBookList.append(book);
+
+  saveBookToArray({
+    id: bookID,
+    title: titleBook,
+    author: authorBook,
+    year: yearBook,
+    isComplete: isFinished,
+  });
+
+  document.dispatchEvent(new Event(RENDER_BOOK));
+
+  // save data to local storage
+  saveDataToStorage();
 };
 
 const makeBook = ({ title, author, year, isComplete }) => {
@@ -48,6 +86,7 @@ const makeBook = ({ title, author, year, isComplete }) => {
 
   infoContainer.append(bookTitle, bookAuthor, bookYear);
   bookContainer.append(infoContainer);
+  // bookContainer.setAttribute("id", `todo-${id}`);
 
   if (isComplete) {
     bookContainer.append(createUndoButton(), createDeleteButton());
@@ -124,4 +163,17 @@ const undoBookFromFinished = (bookElement) => {
 
   listUnfinishedBook.append(newBook);
   bookElement.remove();
+};
+
+const createEmptyListContainer = () => {
+  const emptyListContainer = document.createElement("div");
+  const emoticon = document.createElement("i");
+  const description = document.createElement("p");
+
+  emptyListContainer.classList.add("unfinished-books__empty");
+  emoticon.classList.add("fa fa-meh-o");
+
+  description.innerText = "You haven't added a book yet";
+
+  emptyListContainer.append(emoticon, description);
 };
