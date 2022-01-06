@@ -9,12 +9,6 @@
     rgba(17, 17, 26, 0.1) 0px 0px 8px;
 }
 
-.finished-books h1 {
-  font-size: 20px;
-  font-family: "Indie Flower", cursive;
-  color: #2c394b;
-}
-
 #finished-books__empty {
   display: none;
   height: 300px;
