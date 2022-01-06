@@ -7,6 +7,8 @@
 } */
 
 const books = [];
+let finishedBooksCount = 0;
+let unfinishedBooksCount = 0;
 const RENDER_BOOK = "render-book";
 const SAVED_BOOK = "saved-book";
 const STORAGE_KEY = "MY_SHELFBOOK_APP";
@@ -67,13 +69,9 @@ const loadBooksFromStorage = () => {
   document.dispatchEvent(new Event(RENDER_BOOK));
 };
 
-document.addEventListener(SAVED_BOOK, () => {
-  console.log("Data berhasil di simpan.");
-});
-
-document.addEventListener(RENDER_BOOK, () => {
-  console.log({ books });
-});
+// document.addEventListener(SAVED_BOOK, () => {
+//   console.log("Data berhasil di simpan.");
+// });
 
 document.addEventListener(RENDER_BOOK, () => {
   const unfinishedBookList = document.getElementById(UNFINISHED_LIST_BOOK_ID);
@@ -82,13 +80,36 @@ document.addEventListener(RENDER_BOOK, () => {
   // clearing list item
   unfinishedBookList.innerHTML = "";
   finishedBookList.innerHTML = "";
+  finishedBooksCount = 0;
+  unfinishedBooksCount = 0;
 
   for (bookItem of books) {
-    const todoElement = makeBook(bookItem);
+    const bookElement = makeBook(bookItem);
     if (bookItem.isComplete) {
-      finishedBookList.append(todoElement);
+      finishedBooksCount++;
+      finishedBookList.append(bookElement);
     } else {
-      unfinishedBookList.append(todoElement);
+      unfinishedBooksCount++;
+      unfinishedBookList.append(bookElement);
     }
   }
+
+  const finishedContainer = document.getElementById("finished-books__empty");
+  const unfinishedContainer = document.getElementById(
+    "unfinished-books__empty"
+  );
+
+  if (finishedBooksCount > 0) {
+    finishedContainer.style.display = "none";
+  } else {
+    finishedContainer.style.display = "flex";
+  }
+
+  if (unfinishedBooksCount > 0) {
+    unfinishedContainer.style.display = "none";
+  } else {
+    unfinishedContainer.style.display = "flex";
+  }
+
+  console.log({ finishedBooksCount, unfinishedBooksCount });
 });

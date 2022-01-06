@@ -15,23 +15,23 @@
   color: #2c394b;
 }
 
-.unfinished-books__empty {
+#unfinished-books__empty {
   height: 300px;
   border: 1px dashed #048e9b;
   border-radius: 10px;
   margin-bottom: 20px;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.unfinished-books__empty .fa {
+#unfinished-books__empty .fa {
   font-size: 45px;
   color: #048e9b;
 }
 
-.unfinished-books__empty p {
+#unfinished-books__empty p {
   width: 200px;
   text-align: center;
   line-height: 25px;

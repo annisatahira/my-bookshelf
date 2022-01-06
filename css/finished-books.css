@@ -15,23 +15,23 @@
   color: #2c394b;
 }
 
-.finished-books__empty {
+#finished-books__empty {
+  display: none;
   height: 300px;
   border: 1px dashed #048e9b;
   border-radius: 10px;
   margin-bottom: 20px;
-  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.finished-books__empty .fa {
+#finished-books__empty .fa {
   font-size: 45px;
   color: #048e9b;
 }
 
-.finished-books__empty p {
+#finished-books__empty p {
   width: 200px;
   text-align: center;
   line-height: 25px;

@@ -131,7 +131,7 @@ const removeBookElement = ({ bookElement, bookId }) => {
 
   if (bookTarget === -1) return;
   books.splice(bookTarget, 1);
-
+  bookTarget.isComplete ? finishedBooksCount-- : unfinishedBooksCount--;
   document.dispatchEvent(new Event(RENDER_BOOK));
   saveDataToStorage();
   bookElement.remove();
@@ -156,21 +156,9 @@ const undoBookFromFinished = ({ bookElement, bookId }) => {
   // change status isComplete on local storage
   const targetBook = findId({ id: bookId, data: books });
   if (targetBook === null) return;
+  finishedBooksCount--;
   targetBook.isComplete = false;
   document.dispatchEvent(new Event(RENDER_BOOK));
   saveDataToStorage();
   bookElement.remove();
-};
-
-const createEmptyListContainer = () => {
-  const emptyListContainer = document.createElement("div");
-  const emoticon = document.createElement("i");
-  const description = document.createElement("p");
-
-  emptyListContainer.classList.add("unfinished-books__empty");
-  emoticon.classList.add("fa fa-meh-o");
-
-  description.innerText = "You haven't added a book yet";
-
-  emptyListContainer.append(emoticon, description);
 };
