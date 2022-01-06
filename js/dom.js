@@ -6,7 +6,6 @@
   isComplete: boolean,
 } */
 
-// const books = [];
 const UNFINISHED_LIST_BOOK_ID = "books";
 const FINISHED_LIST_BOOK_ID = "finished-books";
 
@@ -14,30 +13,12 @@ const generatedID = () => {
   return `${+new Date()}`;
 };
 
-// const generateBookObject = ({ id, title, author, year, isComplete }) => {
-//   return {
-//     id,
-//     title,
-//     author,
-//     year,
-//     isComplete,
-//   };
-// };
-
 const addBook = () => {
   const titleBook = document.getElementById("title-book").value;
   const authorBook = document.getElementById("author-book").value;
   const yearBook = document.getElementById("year-book").value;
   const isFinished = document.getElementById("finished-book-checked").checked;
 
-  // const bookObject = generateBookObject({
-  //   id: bookID,
-  //   title: titleBook,
-  //   author: authorBook,
-  //   year: yearBook,
-  //   isComplete: isFinished,
-  // });
-  // books.push(bookObject);
   const bookID = generatedID();
   const unfinishedBookList = document.getElementById(UNFINISHED_LIST_BOOK_ID);
   const finishedBookList = document.getElementById(FINISHED_LIST_BOOK_ID);
@@ -89,7 +70,7 @@ const makeBook = ({ id, title, author, year, isComplete }) => {
   bookContainer.setAttribute("id", `book-${id}`);
 
   if (isComplete) {
-    bookContainer.append(createUndoButton(), createDeleteButton(id));
+    bookContainer.append(createUndoButton(id), createDeleteButton(id));
   } else {
     bookContainer.append(createFinishedButton(id), createDeleteButton(id));
   }
@@ -147,9 +128,12 @@ const createDeleteButton = (id) => {
   });
 };
 
-const createUndoButton = () => {
+const createUndoButton = (id) => {
   return createButton("book-item__btn-undo", "Unfinished", (event) => {
-    undoBookFromFinished(event.target.parentElement);
+    undoBookFromFinished({
+      bookElement: event.target.parentElement,
+      bookId: id,
+    });
   });
 };
 
@@ -164,13 +148,14 @@ const removeBookElement = ({ bookElement, bookId }) => {
   bookElement.remove();
 };
 
-const undoBookFromFinished = (bookElement) => {
+const undoBookFromFinished = ({ bookElement, bookId }) => {
   const listUnfinishedBook = document.getElementById(UNFINISHED_LIST_BOOK_ID);
   const titleBook = bookElement.querySelector("h1").innerText;
   const authorBook = bookElement.querySelector("h2").innerText;
   const yearBook = bookElement.querySelector("h3").innerText;
 
   const newBook = makeBook({
+    id: bookId,
     title: titleBook,
     author: authorBook,
     year: yearBook,
@@ -178,6 +163,13 @@ const undoBookFromFinished = (bookElement) => {
   });
 
   listUnfinishedBook.append(newBook);
+
+  // change status isComplete on local storage
+  const targetBook = findId({ id: bookId, data: books });
+  if (targetBook === null) return;
+  targetBook.isComplete = false;
+  document.dispatchEvent(new Event(RENDER_BOOK));
+  saveDataToStorage();
   bookElement.remove();
 };
 
