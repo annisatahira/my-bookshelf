@@ -3,33 +3,30 @@ const generatedID = () => {
 };
 
 const addBook = () => {
-  const titleBook = document.getElementById("title-book").value;
-  const authorBook = document.getElementById("author-book").value;
-  const yearBook = document.getElementById("year-book").value;
-  const isFinished = document.getElementById("finished-book-checked").checked;
-
-  // const titleBookValue = titleBook.value;
-  // console.log({ titleBook });
+  const titleBook = document.getElementById("title-book");
+  const authorBook = document.getElementById("author-book");
+  const yearBook = document.getElementById("year-book");
+  const isFinished = document.getElementById("finished-book-checked");
 
   const bookID = generatedID();
   const unfinishedBookList = document.getElementById(UNFINISHED_LIST_BOOK_ID);
   const finishedBookList = document.getElementById(FINISHED_LIST_BOOK_ID);
   const book = makeBook({
     id: bookID,
-    title: titleBook,
-    author: authorBook,
-    year: yearBook,
-    isComplete: isFinished,
+    title: titleBook.value,
+    author: authorBook.value,
+    year: yearBook.value,
+    isComplete: isFinished.checked,
   });
 
   isFinished ? finishedBookList.append(book) : unfinishedBookList.append(book);
 
   saveBookToArray({
     id: bookID,
-    title: titleBook,
-    author: authorBook,
-    year: yearBook,
-    isComplete: isFinished,
+    title: titleBook.value,
+    author: authorBook.value,
+    year: yearBook.value,
+    isComplete: isFinished.checked,
   });
 
   document.dispatchEvent(new Event(RENDER_BOOK));
@@ -38,7 +35,10 @@ const addBook = () => {
   saveDataToStorage();
 
   //clear input
-  // titleBook.value = "";
+  titleBook.value = "";
+  authorBook.value = "";
+  yearBook.value = "";
+  isFinished.checked = false;
 };
 
 const makeBook = ({ id, title, author, year, isComplete }) => {
