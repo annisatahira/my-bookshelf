@@ -13,9 +13,6 @@ const addBook = () => {
   const titleBook = document.getElementById("title-book").value;
   const authorBook = document.getElementById("author-book").value;
   const yearBook = document.getElementById("year-book").value;
-  console.log("todo" + titleBook);
-  console.log("authorBook" + authorBook);
-  console.log("yearBook" + yearBook);
 
   const unfinishedBookList = document.getElementById(UNFINISHED_LIST_BOOK_ID);
   const book = makeBook({
@@ -26,7 +23,7 @@ const addBook = () => {
   unfinishedBookList.append(book);
 };
 
-const makeBook = ({ title, author, year }) => {
+const makeBook = ({ title, author, year, isComplete }) => {
   const bookContainer = document.createElement("div");
   const infoContainer = document.createElement("div");
   const bookTitle = document.createElement("h1");
@@ -41,13 +38,18 @@ const makeBook = ({ title, author, year }) => {
 
   bookButtonDelete.innerText = "Delete";
 
-  bookContainer.classList.add("unfinished-book__item");
-  bookButtonWrapper.classList.add("unfinished-book__item-btn-wrapper");
-  bookButtonDelete.classList.add("unfinished-book__item-btn-delete");
+  bookContainer.classList.add("book-item");
+  bookButtonWrapper.classList.add("book-item__btn-wrapper");
+  bookButtonDelete.classList.add("book-item__btn-delete");
 
   infoContainer.append(bookTitle, bookAuthor, bookYear);
   bookContainer.append(infoContainer);
-  bookContainer.append(createFinishedButton());
+
+  if (isComplete) {
+    bookContainer.append(createUndoButton(), createDeleteButton());
+  } else {
+    bookContainer.append(createFinishedButton(), createDeleteButton());
+  }
 
   return bookContainer;
 };
@@ -65,15 +67,57 @@ const createButton = (buttonTypeClass, label, eventListener) => {
 };
 
 const addBookToFinished = (bookElement) => {
+  const bookTitle = bookElement.querySelector("h1").innerText;
+  const bookAuthor = bookElement.querySelector("h2").innerText;
+  const bookYear = bookElement.querySelector("h3").innerText;
+
+  const newBook = makeBook({
+    title: bookTitle,
+    author: bookAuthor,
+    year: bookYear,
+    isComplete: true,
+  });
+
+  const listFinishedBook = document.getElementById(FINISHED_LIST_BOOK_ID);
+  listFinishedBook.append(newBook);
   bookElement.remove();
 };
 
 const createFinishedButton = () => {
-  return createButton(
-    "unfinished-book__item-btn-finished",
-    "Finished",
-    (event) => {
-      addBookToFinished(event.target.parentElement);
-    }
-  );
+  return createButton("book-item__btn-finished", "Finished", (event) => {
+    addBookToFinished(event.target.parentElement);
+  });
+};
+
+const createDeleteButton = () => {
+  return createButton("book-item__btn-delete", "Delete", (event) => {
+    removeBookFromFinished(event.target.parentElement);
+  });
+};
+
+const createUndoButton = () => {
+  return createButton("book-item__btn-undo", "Unfinished", (event) => {
+    undoBookFromFinished(event.target.parentElement);
+  });
+};
+
+const removeBookFromFinished = (bookElement) => {
+  bookElement.remove();
+};
+
+const undoBookFromFinished = (bookElement) => {
+  const listUnfinishedBook = document.getElementById(UNFINISHED_LIST_BOOK_ID);
+  const titleBook = bookElement.querySelector("h1").innerText;
+  const authorBook = bookElement.querySelector("h2").innerText;
+  const yearBook = bookElement.querySelector("h3").innerText;
+
+  const newBook = makeBook({
+    title: titleBook,
+    author: authorBook,
+    year: yearBook,
+    isComplete: false,
+  });
+
+  listUnfinishedBook.append(newBook);
+  bookElement.remove();
 };
