@@ -4,6 +4,7 @@
 @import url("unfinished-books.css");
 @import url("finished-books.css");
 @import url("books.css");
+@import url("modal.css");
 @import url("footer.css");
 
 * {
@@ -17,6 +18,12 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-color: #eeeeee;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  position: relative;
 }
 
 .container {
