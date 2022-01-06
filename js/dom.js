@@ -1,14 +1,3 @@
-/* {
-  id: string | number,
-  title: string,
-  author: string,
-  year: number,
-  isComplete: boolean,
-} */
-
-const UNFINISHED_LIST_BOOK_ID = "books";
-const FINISHED_LIST_BOOK_ID = "finished-books";
-
 const generatedID = () => {
   return `${+new Date()}`;
 };

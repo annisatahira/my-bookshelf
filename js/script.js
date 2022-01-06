@@ -5,4 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
     addBook();
   });
+
+  if (isStorageExist()) {
+    loadBooksFromStorage();
+  }
 });

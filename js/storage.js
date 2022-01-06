@@ -1,7 +1,18 @@
+/* {
+  id: string | number,
+  title: string,
+  author: string,
+  year: number,
+  isComplete: boolean,
+} */
+
 const books = [];
 const RENDER_BOOK = "render-book";
 const SAVED_BOOK = "saved-book";
 const STORAGE_KEY = "MY_SHELFBOOK_APP";
+
+const UNFINISHED_LIST_BOOK_ID = "books";
+const FINISHED_LIST_BOOK_ID = "finished-books";
 
 const isStorageExist = () => {
   if (typeof Storage === undefined) {
@@ -40,6 +51,44 @@ const saveDataToStorage = () => {
   }
 };
 
+const loadBooksFromStorage = () => {
+  const serializedData = localStorage.getItem(STORAGE_KEY);
+
+  let data = JSON.parse(serializedData);
+
+  console.log({ data });
+
+  if (data !== null) {
+    for (book of data) {
+      books.push(book);
+    }
+  }
+
+  document.dispatchEvent(new Event(RENDER_BOOK));
+};
+
 document.addEventListener(SAVED_BOOK, () => {
   console.log("Data berhasil di simpan.");
+});
+
+document.addEventListener(RENDER_BOOK, () => {
+  console.log({ books });
+});
+
+document.addEventListener(RENDER_BOOK, () => {
+  const unfinishedBookList = document.getElementById(UNFINISHED_LIST_BOOK_ID);
+  const finishedBookList = document.getElementById(FINISHED_LIST_BOOK_ID);
+
+  // clearing list item
+  unfinishedBookList.innerHTML = "";
+  finishedBookList.innerHTML = "";
+
+  for (bookItem of books) {
+    const todoElement = makeBook(bookItem);
+    if (bookItem.isComplete) {
+      finishedBookList.append(todoElement);
+    } else {
+      unfinishedBookList.append(todoElement);
+    }
+  }
 });
