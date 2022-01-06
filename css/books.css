@@ -41,7 +41,8 @@
 
 .book-item__btn-finished,
 .book-item__btn-delete,
-.book-item__btn-undo {
+.book-item__btn-undo,
+.book-item__btn-cancel {
   font-family: "Indie Flower", cursive;
   border: none;
   color: white;
@@ -53,9 +54,14 @@
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+.book-item__btn-cancel,
 .book-item__btn-finished {
   background-color: #048e9b;
   margin-top: 20px;
+}
+
+.book-item__btn-cancel {
+  margin-left: 5px;
 }
 
 .book-item__btn-delete {

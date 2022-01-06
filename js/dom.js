@@ -8,6 +8,9 @@ const addBook = () => {
   const yearBook = document.getElementById("year-book").value;
   const isFinished = document.getElementById("finished-book-checked").checked;
 
+  // const titleBookValue = titleBook.value;
+  // console.log({ titleBook });
+
   const bookID = generatedID();
   const unfinishedBookList = document.getElementById(UNFINISHED_LIST_BOOK_ID);
   const finishedBookList = document.getElementById(FINISHED_LIST_BOOK_ID);
@@ -33,6 +36,9 @@ const addBook = () => {
 
   // save data to local storage
   saveDataToStorage();
+
+  //clear input
+  // titleBook.value = "";
 };
 
 const makeBook = ({ id, title, author, year, isComplete }) => {
@@ -41,27 +47,24 @@ const makeBook = ({ id, title, author, year, isComplete }) => {
   const bookTitle = document.createElement("h1");
   const bookAuthor = document.createElement("h2");
   const bookYear = document.createElement("h3");
-  const bookButtonWrapper = document.createElement("div");
-  const bookButtonDelete = document.createElement("p");
 
   bookTitle.innerText = title;
   bookAuthor.innerText = author;
   bookYear.innerText = year;
 
-  bookButtonDelete.innerText = "Delete";
-
   bookContainer.classList.add("book-item");
-  bookButtonWrapper.classList.add("book-item__btn-wrapper");
-  bookButtonDelete.classList.add("book-item__btn-delete");
 
   infoContainer.append(bookTitle, bookAuthor, bookYear);
   bookContainer.append(infoContainer);
   bookContainer.setAttribute("id", `book-${id}`);
 
   if (isComplete) {
-    bookContainer.append(createUndoButton(id), createDeleteButton(id));
+    bookContainer.append(createUndoButton(id), createOpenModalDeleteBook(id));
   } else {
-    bookContainer.append(createFinishedButton(id), createDeleteButton(id));
+    bookContainer.append(
+      createFinishedButton(id),
+      createOpenModalDeleteBook(id)
+    );
   }
 
   return bookContainer;
@@ -111,9 +114,29 @@ const createFinishedButton = (id) => {
   });
 };
 
-const createDeleteButton = (id) => {
+const createOpenModalDeleteBook = (id) => {
   return createButton("book-item__btn-delete", "Delete", (event) => {
-    removeBookElement({ bookElement: event.target.parentElement, bookId: id });
+    confrimDeleteBookElement({
+      bookElement: event.target.parentElement,
+      bookId: id,
+    });
+  });
+};
+
+const createDeletedBook = (bookElement, id) => {
+  return createButton("book-item__btn-delete", "Delete", () => {
+    removeBookElement({
+      bookElement: bookElement,
+      bookId: id,
+    });
+  });
+};
+
+const createCancelledButton = (bookElement) => {
+  return createButton("book-item__btn-cancel", "Cancel", () => {
+    cancelledDeleteBook({
+      bookElement,
+    });
   });
 };
 
@@ -126,6 +149,37 @@ const createUndoButton = (id) => {
   });
 };
 
+const confrimDeleteBookElement = ({ bookElement, bookId }) => {
+  // open modal to confrim whether user want to delete book or not
+  const modalContainer = document.querySelector(".modal-container");
+  const modalButtonWrapper = document.querySelector(".modal-button");
+  modalContainer.style.display = "block";
+
+  // clear modal button
+  modalButtonWrapper.innerHTML = "";
+
+  const titleBook = bookElement.querySelector("h1").innerText;
+  const authorBook = bookElement.querySelector("h2").innerText;
+  const yearBook = bookElement.querySelector("h3").innerText;
+
+  const titleModal = document.querySelector(
+    ".modal-content .modal__title-book"
+  );
+  const authorModal = document.querySelector(
+    ".modal-content .modal__author-book"
+  );
+  const yearModal = document.querySelector(".modal-content .modal__year-book");
+
+  titleModal.innerText = titleBook;
+  authorModal.innerText = authorBook;
+  yearModal.innerText = yearBook;
+
+  modalButtonWrapper.append(
+    createDeletedBook(bookElement, bookId),
+    createCancelledButton(bookElement)
+  );
+};
+
 const removeBookElement = ({ bookElement, bookId }) => {
   const bookTarget = findIndex({ id: bookId, data: books });
 
@@ -134,7 +188,11 @@ const removeBookElement = ({ bookElement, bookId }) => {
   bookTarget.isComplete ? finishedBooksCount-- : unfinishedBooksCount--;
   document.dispatchEvent(new Event(RENDER_BOOK));
   saveDataToStorage();
+
   bookElement.remove();
+
+  const modalContainer = document.querySelector(".modal-container");
+  modalContainer.style.display = "none";
 };
 
 const undoBookFromFinished = ({ bookElement, bookId }) => {
@@ -161,4 +219,9 @@ const undoBookFromFinished = ({ bookElement, bookId }) => {
   document.dispatchEvent(new Event(RENDER_BOOK));
   saveDataToStorage();
   bookElement.remove();
+};
+
+const cancelledDeleteBook = () => {
+  const modalContainer = document.querySelector(".modal-container");
+  modalContainer.style.display = "none";
 };
