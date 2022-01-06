@@ -39,3 +39,8 @@
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
   margin-bottom: 20px;
 }
+
+.add-book__checked {
+  font-family: "Indie Flower", cursive;
+  margin-bottom: 20px;
+}

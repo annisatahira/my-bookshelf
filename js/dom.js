@@ -13,14 +13,18 @@ const addBook = () => {
   const titleBook = document.getElementById("title-book").value;
   const authorBook = document.getElementById("author-book").value;
   const yearBook = document.getElementById("year-book").value;
+  const isFinished = document.getElementById("finished-book-checked").checked;
 
   const unfinishedBookList = document.getElementById(UNFINISHED_LIST_BOOK_ID);
+  const finishedBookList = document.getElementById(FINISHED_LIST_BOOK_ID);
   const book = makeBook({
     title: titleBook,
     author: authorBook,
     year: yearBook,
+    isComplete: isFinished,
   });
-  unfinishedBookList.append(book);
+
+  isFinished ? finishedBookList.append(book) : unfinishedBookList.append(book);
 };
 
 const makeBook = ({ title, author, year, isComplete }) => {
