@@ -110,6 +110,4 @@ document.addEventListener(RENDER_BOOK, () => {
   } else {
     unfinishedContainer.style.display = "flex";
   }
-
-  console.log({ finishedBooksCount, unfinishedBooksCount });
 });

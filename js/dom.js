@@ -70,6 +70,21 @@ const makeBook = ({ id, title, author, year, isComplete }) => {
   return bookContainer;
 };
 
+const searchBook = () => {
+  const titleBook = document.getElementById("title-search").value;
+  let filteredBook = books;
+
+  if (titleBook === "") {
+    filteredBook = books;
+  } else {
+    filteredBook = books.filter(
+      (book) => book.title.includes(titleBook) === true
+    );
+  }
+
+  renderFilteredBook(filteredBook);
+};
+
 const createButton = (buttonTypeClass, label, eventListener) => {
   const button = document.createElement("button");
 
@@ -224,4 +239,22 @@ const undoBookFromFinished = ({ bookElement, bookId }) => {
 const cancelledDeleteBook = () => {
   const modalContainer = document.querySelector(".modal-container");
   modalContainer.style.display = "none";
+};
+
+const renderFilteredBook = (books) => {
+  const unfinishedBookList = document.getElementById(UNFINISHED_LIST_BOOK_ID);
+  const finishedBookList = document.getElementById(FINISHED_LIST_BOOK_ID);
+
+  // clearing list item
+  unfinishedBookList.innerHTML = "";
+  finishedBookList.innerHTML = "";
+
+  for (bookItem of books) {
+    const bookElement = makeBook(bookItem);
+    if (bookItem.isComplete) {
+      finishedBookList.append(bookElement);
+    } else {
+      unfinishedBookList.append(bookElement);
+    }
+  }
 };
