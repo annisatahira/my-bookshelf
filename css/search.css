@@ -12,7 +12,7 @@
   border: none;
   padding: 1rem;
   width: 100%;
-  margin: 10px 0 10px 0;
+  margin: 5px 0 5px 0;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
 
@@ -31,6 +31,7 @@
   background-color: #048e9b;
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  cursor: pointer;
 }
 
 .search-form__btn .fa {
